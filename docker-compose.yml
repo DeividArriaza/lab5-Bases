@@ -1,0 +1,21 @@
+services:
+  db:
+    build: .
+    container_name: lab5_biblioteca_db
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: biblioteca
+      POSTGRES_USER: lab5
+      POSTGRES_PASSWORD: lab5
+    ports:
+      - "5450:5432"
+    volumes:
+      - lab5_pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U lab5 -d biblioteca"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+volumes:
+  lab5_pgdata:
